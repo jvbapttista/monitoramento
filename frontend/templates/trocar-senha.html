@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MONITORAMENTO &mdash; trocar senha</title>
+<script src="/js/tema.js"></script>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/componentes.css">
+</head>
+<body class="tela-login">
+
+<main class="login-caixa">
+
+  <div class="login-marca">
+    <span class="marca-nome login-marca-nome">Monitoramento</span>
+  </div>
+
+  {% if obrigatoria %}
+    <div class="login-aviso">
+      <b>Escolha a sua senha</b>
+      Você entrou com uma senha temporária, criada por um master. Defina a sua
+      agora &mdash; depois disso, ninguém além de você a conhece.
+    </div>
+  {% endif %}
+
+  {% if erro %}<div class="login-erro">{{ erro }}</div>{% endif %}
+
+  <form method="post" action="/trocar-senha" class="login-forma" autocomplete="on">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    <input type="hidden" name="usuario_visivel" value="{{ usuario }}"
+           autocomplete="username">
+
+    <label class="login-campo">
+      <span>Senha atual</span>
+      <input type="password" name="atual" autocomplete="current-password" required autofocus>
+    </label>
+
+    <label class="login-campo">
+      <span>Nova senha &mdash; mínimo de {{ minimo }} caracteres</span>
+      <input type="password" name="nova" autocomplete="new-password"
+             minlength="{{ minimo }}" required>
+    </label>
+
+    <label class="login-campo">
+      <span>Repita a nova senha</span>
+      <input type="password" name="repetir" autocomplete="new-password"
+             minlength="{{ minimo }}" required>
+    </label>
+
+    <button type="submit" class="login-botao">Salvar e entrar</button>
+  </form>
+
+  <p class="login-rodape">
+    {% if obrigatoria %}
+      Entrando como <b>{{ usuario }}</b> &middot; <a href="/sair">sair</a>
+    {% else %}
+      <a href="/">voltar ao painel</a>
+    {% endif %}
+  </p>
+</main>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MONITORAMENTO &mdash; entrar</title>
+<script src="/js/tema.js"></script>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/componentes.css">
+</head>
+<body class="tela-login">
+
+
+<main class="login-caixa">
+
+  
+  <div class="login-marca">
+    <span class="marca-nome login-marca-nome">Monitoramento</span>
+  </div>
+
+  {% if sem_contas %}
+    
+    <div class="login-aviso">
+      <b>Nenhuma conta criada ainda.</b>
+      A primeira precisa ser criada no servidor, por linha de comando:
+      <code>docker compose exec app python -m monitoramento.contas criar SEU.USUARIO --master</code>
+    </div>
+  {% else %}
+
+    {% if erro %}<div class="login-erro">{{ erro }}</div>{% endif %}
+    {% if aviso %}<div class="login-aviso">{{ aviso }}</div>{% endif %}
+
+    <form method="post" action="/login" class="login-forma" autocomplete="on">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label class="login-campo">
+        <span>Usuário</span>
+        <input type="text" name="usuario" autocomplete="username"
+               autocapitalize="none" autocorrect="off" spellcheck="false"
+               required autofocus>
+      </label>
+
+      <label class="login-campo">
+        <span>Senha</span>
+        <input type="password" name="senha" autocomplete="current-password" required>
+      </label>
+
+      <button type="submit" class="login-botao">Entrar</button>
+    </form>
+  {% endif %}
+
+  <p class="login-rodape">
+    Monitoramento de TI &middot; acesso restrito à equipe autorizada
+  </p>
+</main>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

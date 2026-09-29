@@ -1,0 +1,33 @@
+name: monitoramento-demo
+services:
+  app:
+    build: .
+    image: monitoramento:local
+    restart: unless-stopped
+    init: true
+    environment:
+      MODO_DEMO: "1"
+      COOKIE_SEGURO: "0"
+      CONFIAR_PROXY: "0"
+      DADOS_PESSOAIS: "0"
+      SECRET_KEY_FILE: /run/secrets/session_key
+      ARQUIVO_CONTAS: /dados/usuarios.json
+      TRUSTED_HOSTS: localhost,127.0.0.1,[::1]
+    secrets: [session_key]
+    ports: ["127.0.0.1:8099:8099"]
+    volumes: [contas:/dados]
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777,noexec,nosuid"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 100
+    logging:
+      driver: json-file
+      options: {max-size: 10m, max-file: "3"}
+secrets:
+  session_key:
+    file: ./.secrets/session_key
+volumes:
+  contas:

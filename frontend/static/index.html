@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MONITORAMENTO</title>
+
+<script src="/js/tema.js"></script>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/componentes.css">
+</head>
+<body>
+<div id="demo-aviso" class="demo-aviso" hidden>Demonstração · 120 máquinas fictícias · sem conexão com infraestrutura real</div>
+
+
+<aside class="menu-lateral" id="menu-lateral" aria-label="Menu principal">
+
+  
+  <div class="menu-topo">
+    
+    <button class="menu-fixar" id="bt-menu" type="button" aria-pressed="false"></button>
+  </div>
+
+  
+  <div class="pulso-caixa" id="pulso"></div>
+
+  
+  <nav class="topo-vistas" aria-label="Telas do painel">
+    <span class="menu-secao">Telas</span>
+    <a class="botao botao-vista" href="#" data-vista="null"
+       title="Painel — visão geral do parque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg> <span class="rot">Painel</span></a>
+    <a class="botao botao-vista" href="#/mapa" data-vista="MAPA"
+       title="Mapa — topologia do parque, projetos, blocos e servidores, tudo num só lugar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 7z"/><path d="M9 4v13M15 7v12.5"/></svg> <span class="rot">Mapa</span></a>
+    
+    <a class="botao botao-vista" href="#/problemas" data-vista="PROBLEMAS"
+       title="Alertas — o que o Zabbix tem aberto agora"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 2.4 17.5A1.9 1.9 0 0 0 4 20.4h16a1.9 1.9 0 0 0 1.6-2.9L13.7 3.9a1.9 1.9 0 0 0-3.4 0z"/><path d="M12 9v4.5M12 17.2v.1"/></svg> <span class="rot">Alertas</span></a>
+    <a class="botao botao-vista" href="#/inventario" data-vista="INVENTARIO"
+       title="Inventário — todas as máquinas, ordenadas por urgência"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg> <span class="rot">Inventário</span></a>
+    <a class="botao botao-vista" href="#/relatorios" data-vista="RELATORIOS"
+       title="Relatórios — disponibilidade do período e inventário em CSV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h9l5 5v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/><path d="M9 13v4M12 11v6M15 14v3"/></svg> <span class="rot">Relatórios</span></a>
+    <a class="botao botao-vista" href="#/aplicativos" data-vista="APLICATIVOS"
+       title="Aplicativos — ranking de programas instalados no parque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4"/></svg> <span class="rot">Aplicativos</span></a>
+    
+  </nav>
+
+  <div class="menu-ferramentas">
+    <span class="menu-secao">Ferramentas</span>
+    <button class="botao botao-vista" id="bt-noc" type="button"
+            title="Modo NOC — esconde busca, filtros e inventário; aumenta os números"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12" rx="1.8"/><path d="M8 20h8M12 16v4"/></svg> <span class="rot">Modo NOC</span></button>
+    <button class="botao botao-vista" id="bt-tela" type="button"
+            title="Tela cheia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H4.5A1.5 1.5 0 0 0 3 4.5V8M16 3h3.5A1.5 1.5 0 0 1 21 4.5V8M8 21H4.5A1.5 1.5 0 0 1 3 19.5V16M16 21h3.5a1.5 1.5 0 0 0 1.5-1.5V16"/></svg> <span class="rot">Tela cheia</span></button>
+  </div>
+
+  
+  <div class="menu-rodape">
+    <div class="topo-usuario" id="usuario"></div>
+    
+    <button class="botao botao-icone" id="bt-tema" type="button"
+            aria-label="Alternar tema"></button>
+  </div>
+</aside>
+
+
+<div class="menu-veu" id="menu-veu" hidden></div>
+
+
+<header class="topo">
+  <div class="topo-interno">
+    
+    <button class="topo-menu" id="bt-menu-gaveta" type="button"
+            aria-label="Abrir o menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+
+    <div class="topo-titulo">
+      
+      
+      <a class="marca" href="#" data-inicio="1" title="Ir para o painel"
+         aria-label="MONITORAMENTO — ir para o painel">
+        <span class="marca-nome">Monitoramento</span>
+      </a>
+      <span class="marca-sep"></span>
+      
+      <h1 id="topo-tit"></h1>
+    </div>
+
+    
+    <div class="topo-busca" id="busca-caixa">
+      <span class="campo-icone">&#9906;</span>
+      <input type="text" id="busca" class="campo" autocomplete="off" spellcheck="false"
+             placeholder="Buscar máquina, IP, projeto, grupo ou problema&nbsp;&nbsp;( / )"
+             aria-label="Busca global">
+      
+      <button type="button" class="campo-limpar" data-limpar-campo="busca"
+              tabindex="-1" title="Limpar a busca" aria-label="Limpar a busca">&#10005;</button>
+      <div class="sugestoes" id="sugestoes" style="display:none" role="listbox"></div>
+    </div>
+
+    <div class="topo-acoes">
+      
+      <button class="botao botao-icone" data-acao="tour"
+              title="Ver o tour do painel novamente"
+              aria-label="Ver o tour do painel novamente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.3-2.5 2.3"/>
+          <path d="M12 16.8v.1"/>
+        </svg>
+      </button>
+      <div class="conexao" id="conexao" role="status" aria-live="polite">
+        <span class="bolha"></span><span>Conectando...</span>
+      </div>
+      
+      <button class="botao botao-icone" id="bt-atualizar"
+              title="Atualizar agora — busca no Zabbix sem esperar o ciclo (tecla R)"
+              aria-label="Atualizar agora">
+        <span class="giro" aria-hidden="true">&#10227;</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="pagina">
+
+  
+  <section class="vista" id="vista"></section>
+
+
+  <div id="aviso" style="margin-top:16px"></div>
+  <div class="chips" id="chips" style="margin-top:16px"></div>
+
+  
+  <section class="camada">
+    <div class="camada-cab">
+      <h2 class="camada-tit">Saúde do parque</h2>
+      <span class="camada-nota">clique em qualquer número para ver quais máquinas são</span>
+    </div>
+
+    <div class="grade g-saude">
+      <div class="painel">
+        <div class="painel-cab">
+          <svg class="painel-tit-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 15a8 8 0 1 1 16 0"/><path d="M12 15l4-5"/><circle cx="12" cy="15" r="1.3" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="painel-tit">Capacidade do parque</span>
+          <span class="dica" style="margin-left:6px">
+            <span class="marcador" tabindex="0" role="button" aria-label="Como estes números são medidos">?</span>
+            
+            <span class="balao">
+              Três perguntas de capacidade: quanto disco ainda cabe, qual
+              tamanho de RAM está sofrendo, e quantas máquinas vivem com CPU
+              no limite. Só entram máquinas que estão reportando agora —
+              máquina desligada não tem medição, e contar o parque inteiro
+              como base esconderia isso. Clique em qualquer linha para ver
+              quais máquinas são.
+            </span>
+          </span>
+          
+          <span class="cap-resumo" id="cap-resumo"></span>
+        </div>
+        <div class="painel-corpo" id="capacidade"></div>
+      </div>
+
+      
+      <div class="coluna-resumo">
+        <div class="grade g-kpi" id="kpis"></div>
+
+        
+        <div class="grade g-cpu-rede">
+          <div class="painel">
+            <div class="painel-cab">
+              <span class="painel-tit">Máquinas com maior uso de CPU</span>
+              <span class="painel-sub">clique para abrir o detalhe</span>
+            </div>
+            <div class="painel-corpo" id="topmaq"></div>
+          </div>
+
+          <div class="painel">
+            <div class="painel-cab">
+              <span class="painel-tit">Estabilidade da rede</span>
+              <span class="dica" style="margin-left:6px">
+                <span class="marcador" tabindex="0" role="button"
+                      aria-label="Como esta medida é feita">?</span>
+                <span class="balao">
+                  Conta quantas vezes o link caiu ou o agente sumiu <b>e
+                  voltou sozinho em menos de 15 minutos</b>. Queda que não
+                  volta não é oscilação: é máquina desligada, ou problema que
+                  já está aberto logo abaixo.<br><br>
+                  Perda de pacote não aparece aqui porque o parque não a mede:
+                  os contadores da placa estão todos em zero, e não há ICMP.
+                </span>
+              </span>
+            </div>
+            
+            <div class="painel-corpo" id="rede"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="camada">
+    <div class="camada-cab">
+      <h2 class="camada-tit">O que precisa de atenção</h2>
+    </div>
+
+    <div class="grade g-atencao">
+      <div class="painel">
+        <div class="painel-cab">
+          <span class="painel-tit">Principais problemas agora</span>
+          <span class="painel-sub">clique para isolar</span>
+        </div>
+        <div class="painel-corpo" id="top-problemas"></div>
+      </div>
+
+      <div class="painel">
+        <div class="painel-cab">
+          <span class="painel-tit">O que mudou</span>
+          <span class="painel-sub">abriu e resolveu, mais recente primeiro</span>
+        </div>
+        <div class="painel-corpo sem-espaco" style="padding:8px" id="eventos"></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="camada recolhivel" data-secao="problemas">
+    <div class="camada-cab">
+      <button class="camada-recolher" data-recolher="problemas"
+              aria-expanded="true" title="Recolher esta seção">
+        <span class="seta" aria-hidden="true">&#9662;</span>
+      </button>
+      <h2 class="camada-tit">Problemas ativos</h2>
+      <span class="camada-nota" id="conta-problemas">—</span>
+      <div class="camada-acao so-operacao">
+        <select class="select" id="f-severidade"></select>
+        <select class="select" id="f-escopo"></select>
+        <select class="select" id="f-status">
+          <option value="">Online e offline</option>
+          <option value="online">Somente online</option>
+          <option value="offline">Somente offline</option>
+        </select>
+        <select class="select" id="f-projeto"></select>
+        <select class="select" id="f-grupo"></select>
+        <select class="select" id="f-especial"></select>
+      </div>
+    </div>
+
+    <div class="painel">
+      <div class="painel-corpo sem-espaco" id="tabela-problemas"></div>
+      <div class="painel-rodape" id="nota-ruido"></div>
+    </div>
+  </section>
+
+  
+
+  
+  <section class="camada">
+    <div class="camada-cab">
+      <h2 class="camada-tit">Recursos</h2>
+      <span class="camada-nota">média com quem está puxando ela &mdash; clique numa máquina para abrir</span>
+    </div>
+
+    <div class="grade g-3" id="recursos"></div>
+  </section>
+
+  
+  <section class="camada so-operacao recolhivel" data-secao="inventario">
+    <div class="camada-cab">
+      <button class="camada-recolher" data-recolher="inventario"
+              aria-expanded="true" title="Recolher esta seção">
+        <span class="seta" aria-hidden="true">&#9662;</span>
+      </button>
+      <h2 class="camada-tit">Inventário</h2>
+      <span class="camada-nota" id="conta-hosts">—</span>
+      <span class="camada-nota">ordenado por urgência &mdash; clique numa linha para o detalhe</span>
+      
+      <div class="camada-acao">
+        <select class="select" id="f-parada" aria-label="Tempo sem ligar">
+          <option value="">Qualquer tempo parada</option>
+          <option value="10">Parada há 10 dias ou mais</option>
+          <option value="20">Parada há 20 dias ou mais</option>
+          <option value="30">Parada há 30 dias ou mais</option>
+          <option value="nunca">Nunca reportou</option>
+        </select>
+      </div>
+    </div>
+    <div class="painel">
+      <div class="painel-corpo sem-espaco" id="tabela-hosts"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="detalhe"></div>
+
+<script src="/js/menu.js"></script>
+<script src="/js/formato.js"></script>
+<script src="/js/estado.js"></script>
+<script src="/js/graficos.js"></script>
+<script src="/js/paineis.js"></script>
+<script src="/js/pulso.js"></script>
+<script src="/js/rede.js"></script>
+<script src="/js/mapa.js"></script>
+<script src="/js/relatorios.js"></script>
+<script src="/js/aplicativos.js"></script>
+<script src="/js/tabelas.js"></script>
+<script src="/js/detalhe.js"></script>
+<script src="/js/vistas.js"></script>
+<script src="/js/usuarios.js"></script>
+<script src="/js/acessos.js"></script>
+<script src="/js/fluxo.js"></script>
+<script src="/js/tour.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
